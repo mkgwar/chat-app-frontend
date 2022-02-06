@@ -1,13 +1,12 @@
 import { io } from "socket.io-client";
 import { useState, useEffect, useRef } from "react";
 import api from "../API/index";
-
-//const SERVER_URL = "http://localhost:5000";
-const SERVER_URL = "https://chat-app-mkgwar.herokuapp.com";
+import { SERVER_URL } from "../Url";
 
 const RightPanel = ({ channelName, userData }) => {
   const token = localStorage.getItem("token");
   const [socket, setsocket] = useState("");
+  const [isLoading, setisLoading] = useState(true);
   const [message, setmessage] = useState("");
   const [profilePics, setprofilePics] = useState({});
   const [messageList, setmessageList] = useState([]);
@@ -28,6 +27,7 @@ const RightPanel = ({ channelName, userData }) => {
       });
 
       setmessageList((messageList) => data.messages);
+      setisLoading(false);
     }
   };
 
@@ -122,10 +122,17 @@ const RightPanel = ({ channelName, userData }) => {
       <div className="channel-header flex items-center h-16 px-16 text-lg font-bold text-white shadow-md uppercase">
         {channelName}
       </div>
-      <div className="chat-window text-white px-16 p-8 w-full h-full overflow-y-scroll">
-        <DisplayMessages />
-        <div ref={bottomDiv} />
-      </div>
+      {isLoading ? (
+        <div className="h-full w-full flex justify-center items-center text-white text-xl">
+          Loading Messages...
+        </div>
+      ) : (
+        <div className="chat-window text-white px-16 p-8 w-full h-full overflow-y-scroll">
+          <DisplayMessages />
+          <div ref={bottomDiv} />
+        </div>
+      )}
+
       <div className="type-chat w-full h-40 items-center flex justify-center px-16">
         <div className="bg-gray-200 bg-opacity-25 text-white w-full h-12 flex items-center justify-center ">
           <input
