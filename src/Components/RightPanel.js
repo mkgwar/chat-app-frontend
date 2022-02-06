@@ -2,6 +2,9 @@ import { io } from "socket.io-client";
 import { useState, useEffect, useRef } from "react";
 import api from "../API/index";
 
+//const SERVER_URL = "http://localhost:5000";
+const SERVER_URL = "https://chat-app-mkgwar.herokuapp.com";
+
 const RightPanel = ({ channelName, userData }) => {
   const token = localStorage.getItem("token");
   const [socket, setsocket] = useState("");
@@ -29,9 +32,9 @@ const RightPanel = ({ channelName, userData }) => {
   };
 
   useEffect(() => {
-    setsocket(io("http://localhost:5000"));
+    setsocket(io(SERVER_URL));
 
-    io("http://localhost:5000").on("receivemessage", async (message) => {
+    io(SERVER_URL).on("receivemessage", async (message) => {
       if (!(message.username in profilePics)) {
         const data = await api.getProfilePic(message.username);
         setprofilePics((profilePics) => ({
