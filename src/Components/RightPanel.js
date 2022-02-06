@@ -60,12 +60,14 @@ const RightPanel = ({ channelName, userData }) => {
               key={Math.random(2000)}
               className="flex items-start justify-start mb-16 gap-4"
             >
-              <div className="h-12 w-12 bg-gray-300 relative rounded-md">
-                <img
-                  src={profilePics[message.username]}
-                  alt=""
-                  className="absolute h-full w-full object-cover rounded-md"
-                />
+              <div className="h-12 w-12 bg-gray-800 relative rounded-md">
+                {profilePics[message.username] !== "" && (
+                  <img
+                    src={profilePics[message.username]}
+                    alt=""
+                    className="absolute h-full w-full object-cover rounded-md"
+                  />
+                )}
               </div>
               <div className="w-full flex flex-col">
                 <div className="flex items-center gap-4">

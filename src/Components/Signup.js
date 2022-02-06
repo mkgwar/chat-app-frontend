@@ -37,7 +37,7 @@ const Signup = () => {
   return (
     <div>
       {isSuccess && (
-        <div className="bg-gray-900 w-full border- border-green-500 text-gray-300 font-bold shadow-sm mb-4 flex items-center gap-4">
+        <div className="bg-gray-800 w-full border- border-green-500 text-gray-300 font-bold shadow-sm mb-4 flex items-center gap-4">
           <span className="material-icons h-12 w-12 bg-green-500 flex justify-center items-center text-4xl">
             done
           </span>

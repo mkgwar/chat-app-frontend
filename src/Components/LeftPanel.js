@@ -56,11 +56,13 @@ const LeftPanel = ({ channelName, userData, setuserData }) => {
         >
           <div className="user flex items-center gap-4">
             <div className="h-12 w-12 bg-gray-800 relative">
-              <img
-                src={userData.profilePic}
-                alt=""
-                className="absolute h-full w-full object-cover"
-              />
+              {userData.profilePic !== "" && (
+                <img
+                  src={userData.profilePic}
+                  alt=""
+                  className="absolute h-full w-full object-cover"
+                />
+              )}
             </div>
             <span className="overflow-x-hidden whitespace-nowrap text-ellipsis uppercase text-lg font-bold">
               {userData.username}
