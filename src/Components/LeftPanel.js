@@ -28,15 +28,15 @@ const LeftPanel = ({ channelName, userData, setuserData }) => {
 
   return (
     <div className="channel-list-container w-1/4 h-full bg-black flex flex-col justify-between">
-      <div className="channel-list-header flex items-center h-16 px-8 text-lg font-bold text-white shadow-md">
+      <div className="channel-list-header flex items-center h-16 px-8 font-bold text-white shadow-md">
         Channels
       </div>
-      <div className="channel-list text-white p-8 w-full h-full overflow-x-hidden whitespace-nowrap text-ellipsis">
+      <div className="channel-list text-white text-sm p-8 w-full h-full overflow-x-hidden whitespace-nowrap text-ellipsis">
         {userData.channelList.map((channel) => {
           return (
             <h1
               className={
-                "uppercase text-xl cursor-pointer w-full p-4 hover:bg-gray-800 " +
+                "uppercase font-bold cursor-pointer w-full p-4 hover:bg-gray-800 " +
                 (channelName === channel ? "bg-gray-800" : null)
               }
               key={Math.random(1000)}
@@ -49,13 +49,13 @@ const LeftPanel = ({ channelName, userData, setuserData }) => {
       <div className="relative text-white">
         <div
           className={
-            "logged-in-user w-full h-20  flex items-center px-4 justify-between hover:bg-gray-800 cursor-pointer " +
+            "logged-in-user w-full h-16  flex items-center px-4 justify-between hover:bg-gray-800 cursor-pointer " +
             (openMenu ? "bg-gray-800" : null)
           }
           onClick={() => setopenMenu(!openMenu)}
         >
           <div className="user flex items-center gap-4">
-            <div className="h-12 w-12 bg-gray-800 relative">
+            <div className="h-10 w-10 bg-gray-800 relative">
               {userData.profilePic !== "" && (
                 <img
                   src={userData.profilePic}
@@ -64,7 +64,7 @@ const LeftPanel = ({ channelName, userData, setuserData }) => {
                 />
               )}
             </div>
-            <span className="overflow-x-hidden whitespace-nowrap text-ellipsis uppercase text-lg font-bold">
+            <span className="overflow-x-hidden whitespace-nowrap text-sm text-ellipsis uppercase font-bold">
               {userData.username}
             </span>
           </div>
@@ -73,7 +73,7 @@ const LeftPanel = ({ channelName, userData, setuserData }) => {
           </span>
         </div>
         {openMenu && (
-          <div className="absolute right-4 bottom-full mb-2 flex flex-col text-center z-5 shadow-md">
+          <div className="absolute text-xs right-4 bottom-full mb-2 flex flex-col text-center z-5 shadow-md">
             <input
               type="file"
               name="profilepic"

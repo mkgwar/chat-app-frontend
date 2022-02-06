@@ -37,7 +37,7 @@ const Signup = () => {
   return (
     <div>
       {isSuccess && (
-        <div className="bg-gray-800 w-full border- border-green-500 text-gray-300 font-bold shadow-sm mb-4 flex items-center gap-4">
+        <div className="bg-gray-800 w-full text-sm text-gray-300 font-bold shadow-sm mb-4 flex items-center gap-4">
           <span className="material-icons h-12 w-12 bg-green-500 flex justify-center items-center text-4xl">
             done
           </span>
@@ -50,19 +50,19 @@ const Signup = () => {
         </div>
       )}
 
-      <div className="flex flex-col justify-between items-center p-8 bg-gray-800 shadow-md gap-4">
+      <div className="flex flex-col justify-between items-center p-8 text-sm bg-gray-800 shadow-md gap-4">
         <input
           type="text"
           placeholder="username"
           name="username"
-          className="focus:outline-0 w-80 p-2 text-gray-300 bg-black"
+          className="focus:outline-0 w-60 p-2 text-gray-300 bg-black"
           onChange={changeHandler}
         />
         <input
           type="password"
           placeholder="password"
           name="password"
-          className="focus:outline-0 w-80 p-2 text-gray-300 bg-black"
+          className="focus:outline-0 w-60 p-2 text-gray-300 bg-black"
           onChange={changeHandler}
         />
 
@@ -70,7 +70,7 @@ const Signup = () => {
 
         <button
           onClick={submit}
-          className="focus:outline-0 w-80 h-12 text-gray-300 bg-gray-700 font-bold shadow-md"
+          className="focus:outline-0 w-60 h-12 text-gray-300 bg-gray-700 font-bold shadow-md"
         >
           {isLoading ? (
             <div className="w-full h-full flex items-center justify-center">
@@ -87,7 +87,7 @@ const Signup = () => {
           password: min 8 characters
         </div>
       </div>
-      <div className="w-full text-gray-300 p-4 text-center bg-gray-800 mt-4 shadow-md">
+      <div className="w-full text-gray-300 p-4 text-center text-sm bg-gray-800 mt-4 shadow-md">
         Already have an account?{" "}
         <Link to="/login" className="text-blue-500 hover:underline">
           Login

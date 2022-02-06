@@ -28,19 +28,19 @@ const Login = () => {
 
   return (
     <div>
-      <div className="flex flex-col justify-between items-center p-8 bg-gray-800 shadow-md gap-4">
+      <div className="flex flex-col justify-between text-sm items-center p-8 bg-gray-800 shadow-md gap-4">
         <input
           type="text"
           placeholder="username"
           name="username"
-          className="focus:outline-0 w-80 p-2 text-gray-300 bg-black"
+          className="focus:outline-0 w-60 p-2 text-gray-300 bg-black"
           onChange={changeHandler}
         />
         <input
           type="password"
           placeholder="password"
           name="password"
-          className="focus:outline-0 w-80 p-2 text-gray-300 bg-black"
+          className="focus:outline-0 w-60 p-2 text-gray-300 bg-black"
           onChange={changeHandler}
         />
 
@@ -48,7 +48,7 @@ const Login = () => {
 
         <button
           onClick={submit}
-          className="focus:outline-0 w-80 h-12 text-gray-300 bg-gray-700 font-bold shadow-md"
+          className="focus:outline-0 w-60 h-12 text-gray-300 bg-gray-700 font-bold shadow-md"
         >
           {isLoading ? (
             <div className="w-full h-full flex items-center justify-center">
@@ -59,7 +59,7 @@ const Login = () => {
           )}
         </button>
       </div>
-      <div className="w-full text-gray-300 p-4 text-center bg-gray-800 mt-4 shadow-md">
+      <div className="w-full text-gray-300 p-4 text-center bg-gray-800 mt-4 text-sm shadow-md">
         Don't have an account?{" "}
         <Link to="/signup" className="text-blue-500 hover:underline">
           Sign up

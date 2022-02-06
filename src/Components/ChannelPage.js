@@ -27,10 +27,10 @@ const ChannelPage = () => {
     <>
       {isLoading && token === "NO_TOKEN_FOUND" && (
         <div className="text-white h-screen w-screen flex flex-col gap-20 justify-center items-center bg-gray-900">
-          <h1 className="uppercase tracking-widest text-gray-300 text-6xl font-bold">
+          <h1 className="uppercase tracking-widest text-gray-300 text-5xl font-bold">
             Untitled Project
           </h1>
-          <div className="text-xl flex items-center gap-4">
+          <div className="text-lg flex items-center gap-4">
             <Link to="/login" className="text-blue-500 hover:underline">
               Sign in
             </Link>{" "}
@@ -46,7 +46,7 @@ const ChannelPage = () => {
       )}
 
       {isLoading && token !== "NO_TOKEN_FOUND" && (
-        <div className="text-white h-screen w-screen flex justify-center items-center text-2xl bg-gray-900">
+        <div className="text-white h-screen w-screen flex justify-center items-center text-xl bg-gray-900">
           Loading...
         </div>
       )}

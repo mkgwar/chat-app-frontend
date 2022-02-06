@@ -58,7 +58,7 @@ const RightPanel = ({ channelName, userData }) => {
           return (
             <div
               key={Math.random(2000)}
-              className="flex items-start justify-start mb-16 gap-4"
+              className="flex items-center justify-start mb-12 gap-4"
             >
               <div className="h-12 w-12 bg-gray-800 relative rounded-md">
                 {profilePics[message.username] !== "" && (
@@ -71,14 +71,14 @@ const RightPanel = ({ channelName, userData }) => {
               </div>
               <div className="w-full flex flex-col">
                 <div className="flex items-center gap-4">
-                  <span className="text-xl font-bold text-gray-300">
+                  <span className="font-bold text-gray-300">
                     {message.username}
                   </span>
-                  <span className="text-sm font-bold text-gray-400">
+                  <span className="text-xs font-bold text-gray-400">
                     {message.time}
                   </span>
                 </div>
-                <div className="mt-2 text-xl">{message.message}</div>
+                <div className="mt-2">{message.message}</div>
               </div>
             </div>
           );
@@ -134,17 +134,17 @@ const RightPanel = ({ channelName, userData }) => {
       )}
 
       <div className="type-chat w-full h-40 items-center flex justify-center px-16">
-        <div className="bg-gray-200 bg-opacity-25 text-white w-full h-12 flex items-center justify-center ">
+        <div className="bg-gray-200 rounded-md bg-opacity-25 text-white w-full h-10 flex items-center justify-center ">
           <input
             type="text"
-            className="h-full w-full bg-transparent p-4 focus:outline-0"
+            className="h-full w-full bg-transparent p-4 text-sm focus:outline-0"
             placeholder="Type a message here..."
             value={message}
             onChange={(event) => setmessage(event.target.value)}
             onKeyDown={(event) => sendMessage(event, "enter")}
           />
           <button
-            className="bg-blue-500 h-full focus:outline-0 w-32 font-bold shadow-md"
+            className="bg-blue-500 h-full text-sm focus:outline-0 w-32 font-bold shadow-md rounded-md"
             onClick={(event) => sendMessage(event, "click")}
           >
             SEND
