@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-900;
+  }
+}
+
+.loading {
+  animation: loading 1s steps(3, end) infinite;
+
+  left: -10px;
+}
+
+@keyframes loading {
+  to {
+    left: 10px;
+  }
+}
