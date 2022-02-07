@@ -5,9 +5,9 @@ import { useEffect } from "react";
 const Homepage = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (localStorage.getItem("token") !== null) navigate("/channel/welcome");
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("token") !== null) navigate("/channel/welcome");
+  // }, []);
 
   return (
     <div className="h-screen w-screen flex flex-col justify-start items-center">
