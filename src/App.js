@@ -7,7 +7,7 @@ import SignupPage from "./Components/SignupPage";
 
 const App = () => {
   return (
-    <div>
+    <div className="relative h-screen w-screen">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />

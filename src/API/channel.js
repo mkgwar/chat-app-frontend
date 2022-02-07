@@ -13,3 +13,11 @@ export const getMessages = async (token, channelName) => {
 
   return data;
 };
+
+export const sendMessageImage = async (imageData) => {
+  const { data } = await axios.post(
+    `${SERVER_URL}/channel/sendmessageimage`,
+    imageData
+  );
+  return data;
+};

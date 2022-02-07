@@ -3,6 +3,7 @@ import RightPanel from "./RightPanel";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../API/index";
+import OpenImage from "./OpenImage";
 
 const blankUserData = { username: "", profilePic: "", channelList: [] };
 
@@ -10,7 +11,9 @@ const ChannelPage = () => {
   const { channelName } = useParams();
   const [isLoading, setisLoading] = useState(true);
   const [userData, setuserData] = useState(blankUserData);
-  const token = localStorage.getItem("token") || "NO_TOKEN_FOUND";
+  const [token, settoken] = useState("NO_TOKEN_FOUND");
+  const [isOpenImage, setisOpenImage] = useState(false);
+  const [selectedImage, setselectedImage] = useState("");
   const navigate = useNavigate();
 
   const getUserData = async (token) => {
@@ -20,8 +23,12 @@ const ChannelPage = () => {
   };
 
   useEffect(() => {
+    const currToken = localStorage.getItem("token");
+
+    if (currToken) settoken(currToken);
+
     if (token !== "NO_TOKEN_FOUND") getUserData(token);
-  }, [channelName]);
+  }, [channelName, token]);
 
   return (
     <>
@@ -58,8 +65,20 @@ const ChannelPage = () => {
             userData={userData}
             setuserData={setuserData}
           />
-          <RightPanel channelName={channelName} userData={userData} />
+          <RightPanel
+            channelName={channelName}
+            userData={userData}
+            setisOpenImage={setisOpenImage}
+            setselectedImage={setselectedImage}
+          />
         </div>
+      )}
+
+      {isOpenImage && (
+        <OpenImage
+          setisOpenImage={setisOpenImage}
+          selectedImage={selectedImage}
+        />
       )}
     </>
   );
