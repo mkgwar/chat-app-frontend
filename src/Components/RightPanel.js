@@ -12,7 +12,7 @@ const RightPanel = ({
   const token = localStorage.getItem("token");
   const [socket, setsocket] = useState("");
   const [isLoading, setisLoading] = useState(true);
-  const [message, setmessage] = useState("");
+  const messageRef = useRef("");
   const [profilePics, setprofilePics] = useState({});
   const [messageList, setmessageList] = useState([]);
   const [isSendingMessage, setisSendingMessage] = useState(false);
@@ -61,13 +61,6 @@ const RightPanel = ({
     setsocket(io(SERVER_URL));
 
     io(SERVER_URL).on("receivemessage", async (message) => {
-      if (!profilePics[message.username]) {
-        const data = await api.getProfilePic(message.username);
-        setprofilePics((profilePics) => ({
-          ...profilePics,
-          [message.username]: data.profilePic,
-        }));
-      }
       setmessageList((messageList) => [...messageList, message]);
       setisSendingMessage(false);
       if (!atBottom) setnewMessage(true);
@@ -96,34 +89,34 @@ const RightPanel = ({
 
   const sendMessage = (event, method) => {
     if (event.key === "Enter" && method === "enter") {
-      if (message.length !== 0) {
+      if (messageRef.current.value.length !== 0) {
         setisSendingMessage(true);
         event.preventDefault();
-        setmessage("");
         const date = new Date();
         const time = `${date.toDateString()} ${date.toLocaleTimeString()}`;
         socket.emit("sendmessage", {
           channelName: channelName,
           token: token,
-          message: message,
+          message: messageRef.current.value,
           time: time,
           type: "TEXT",
         });
+        messageRef.current.value = "";
       }
     } else if (method === "click") {
-      if (message.length !== 0) {
+      if (messageRef.current.value.length !== 0) {
         setisSendingMessage(true);
         event.preventDefault();
-        setmessage("");
         const date = new Date();
         const time = `${date.toDateString()} ${date.toLocaleTimeString()}`;
         socket.emit("sendmessage", {
           channelName: channelName,
           token: token,
-          message: message,
+          message: messageRef.current.value,
           time: time,
           type: "TEXT",
         });
+        messageRef.current.value = "";
       }
     }
   };
@@ -236,10 +229,9 @@ const RightPanel = ({
         <div className="bg-gray-200 rounded-md bg-opacity-25 text-white w-full h-10 flex items-center justify-center">
           <input
             type="text"
+            ref={messageRef}
             className="h-full w-full bg-transparent p-4 text-sm focus:outline-0"
             placeholder="Type a message here..."
-            value={message}
-            onChange={(event) => setmessage(event.target.value)}
             onKeyDown={(event) => sendMessage(event, "enter")}
           />
           <div className="h-full flex items-center gap-4">
