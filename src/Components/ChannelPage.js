@@ -37,7 +37,7 @@ const ChannelPage = () => {
 
   return (
     <>
-      {isLoading && token === "NO_TOKEN_FOUND" && (
+      {isLoading && token === "NO_TOKEN_FOUND" ? (
         <div className="text-white h-screen w-screen flex flex-col gap-20 justify-center items-center bg-gray-900">
           <h1 className="uppercase tracking-widest text-gray-300 text-5xl font-bold">
             Untitled Project
@@ -55,9 +55,7 @@ const ChannelPage = () => {
             </button>
           </div>
         </div>
-      )}
-
-      {isLoading && token !== "NO_TOKEN_FOUND" && (
+      ) : (
         <div className="text-white h-screen w-screen flex justify-center items-center text-xl bg-gray-900">
           Loading...
         </div>
