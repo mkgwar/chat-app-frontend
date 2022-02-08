@@ -12,13 +12,14 @@ const RightPanel = ({
   const token = localStorage.getItem("token");
   const [socket, setsocket] = useState("");
   const [isLoading, setisLoading] = useState(true);
-  const messageRef = useRef("");
+  const messageRef = useRef(null);
   const [profilePics, setprofilePics] = useState({});
   const [messageList, setmessageList] = useState([]);
   const [isSendingMessage, setisSendingMessage] = useState(false);
   const [atBottom, setatBottom] = useState(false);
   const [newMessage, setnewMessage] = useState(false);
   const bottomDiv = useRef(null);
+  const chatWindow = useRef(null);
 
   const checkBottom = (event) => {
     const { scrollTop, scrollHeight, clientHeight } = event.target;
@@ -58,21 +59,27 @@ const RightPanel = ({
   };
 
   useEffect(() => {
+    getMessages();
+  }, [channelName]);
+
+  useEffect(() => {
     setsocket(io(SERVER_URL));
 
     io(SERVER_URL).on("receivemessage", async (message) => {
       setmessageList((messageList) => [...messageList, message]);
       setisSendingMessage(false);
-      if (!atBottom) setnewMessage(true);
+      if (
+        !atBottom &&
+        !(chatWindow.current.scrollHeight === chatWindow.current.clientHeight)
+      ) {
+        setnewMessage(true);
+      }
     });
-
-    getMessages();
   }, []);
 
   const goAtLast = () => {
     if (bottomDiv.current !== null) {
       bottomDiv.current.scrollIntoView({ behavior: "smooth" });
-      setnewMessage(false);
     }
   };
 
@@ -83,13 +90,12 @@ const RightPanel = ({
   useEffect(() => {
     if (bottomDiv.current !== null && atBottom) {
       bottomDiv.current.scrollIntoView({ behavior: "smooth" });
-      setnewMessage(false);
     }
   }, [messageList.length]);
 
   const sendMessage = (event, method) => {
     if (event.key === "Enter" && method === "enter") {
-      if (messageRef.current.value.length !== 0) {
+      if (messageRef.current.value.trim().length !== 0) {
         setisSendingMessage(true);
         event.preventDefault();
         const date = new Date();
@@ -104,7 +110,7 @@ const RightPanel = ({
         messageRef.current.value = "";
       }
     } else if (method === "click") {
-      if (messageRef.current.value.length !== 0) {
+      if (messageRef.current.value.trim().length !== 0) {
         setisSendingMessage(true);
         event.preventDefault();
         const date = new Date();
@@ -123,21 +129,28 @@ const RightPanel = ({
 
   const sendMessageImage = async (event) => {
     if (event.target.files.length > 0) {
-      setisSendingMessage(true);
-      const date = new Date();
-      const time = `${date.toDateString()} ${date.toLocaleTimeString()}`;
-      const formdata = new FormData();
-      formdata.append("imagemessage", event.target.files[0]);
-      const data = await api.sendMessageImage(formdata);
+      const image = event.target.files[0];
+      if (
+        image.type === "image/png" ||
+        image.type === "image/jpeg" ||
+        image.type === "image/gif"
+      ) {
+        setisSendingMessage(true);
+        const date = new Date();
+        const time = `${date.toDateString()} ${date.toLocaleTimeString()}`;
+        const formdata = new FormData();
+        formdata.append("imagemessage", event.target.files[0]);
+        const data = await api.sendMessageImage(formdata);
 
-      if (data.status === "OK") {
-        socket.emit("sendmessage", {
-          channelName: channelName,
-          token: token,
-          message: data.link,
-          time: time,
-          type: "IMAGE",
-        });
+        if (data.status === "OK") {
+          socket.emit("sendmessage", {
+            channelName: channelName,
+            token: token,
+            message: data.link,
+            time: time,
+            type: "IMAGE",
+          });
+        }
       }
     }
   };
@@ -153,8 +166,9 @@ const RightPanel = ({
         </div>
       ) : (
         <div
-          className="chat-window text-white px-16 p-8 w-full h-full relative overflow-y-scroll"
+          className="chat-window text-white px-16 p-8 w-full h-full relative overflow-y-auto"
           onScroll={checkBottom}
+          ref={chatWindow}
         >
           {messageList.map((message) => {
             return (
@@ -204,6 +218,7 @@ const RightPanel = ({
             );
           })}
           <div ref={bottomDiv} className="h-0" />
+
           <div
             className="fixed h-8 w-8 bottom-28 right-16 text-white font-bold rounded-full bg-gray-700 flex justify-center items-center shadow-md cursor-pointer"
             onClick={goAtLast}
@@ -246,7 +261,7 @@ const RightPanel = ({
 
             <input
               type="file"
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/gif"
               id="imagemessage"
               name="imagemessage"
               className="hidden"

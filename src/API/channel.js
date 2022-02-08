@@ -21,3 +21,25 @@ export const sendMessageImage = async (imageData) => {
   );
   return data;
 };
+
+export const addChannel = async (token, channelData) => {
+  const { data } = await axios.post(
+    `${SERVER_URL}/channel/addchannel`,
+    channelData,
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+
+  return data;
+};
+
+export const getChannelData = async (channelName) => {
+  const { data } = await axios.get(
+    `${SERVER_URL}/channel/getchanneldata?channel=${channelName}`
+  );
+
+  return data;
+};

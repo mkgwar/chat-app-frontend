@@ -14,7 +14,9 @@ const Signup = () => {
 
   const submit = async (event) => {
     event.preventDefault();
-    const { username, password } = userData;
+    let { username, password } = userData;
+
+    username = username.trim().toLowerCase();
 
     if (username.length < 3 || password.length < 8)
       seterrorMessage("Username or password too small.");
@@ -22,7 +24,7 @@ const Signup = () => {
       seterrorMessage("");
       setisLoading(true);
       setisSuccess(false);
-      const data = await api.signup(userData);
+      const data = await api.signup({ username: username, password: password });
 
       if (data.status === "ERROR") {
         setisLoading(false);

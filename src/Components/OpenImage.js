@@ -8,7 +8,7 @@ const OpenImage = ({ setisOpenImage, selectedImage }) => {
           className="absolute h-full w-full object-contain"
         />
         <div
-          className="-top-2 -right-2 bg-blue-500 h-6 w-6 rounded-full shadow-md absolute flex justify-center items-center cursor-pointer"
+          className="-top-2 -right-2 bg-blue-500 h-8 w-8 rounded-full shadow-md absolute flex justify-center items-center cursor-pointer"
           onClick={() => setisOpenImage(false)}
         >
           <span className="material-icons text-sm font-bold">close</span>

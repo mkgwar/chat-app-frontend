@@ -5,7 +5,12 @@ import {
   uploadProfilePic,
   getProfilePic,
 } from "./user";
-import { getMessages, sendMessageImage } from "./channel";
+import {
+  getMessages,
+  sendMessageImage,
+  addChannel,
+  getChannelData,
+} from "./channel";
 
 const api = {
   signup,
@@ -15,6 +20,8 @@ const api = {
   getMessages,
   getProfilePic,
   sendMessageImage,
+  addChannel,
+  getChannelData,
 };
 
 export default api;
