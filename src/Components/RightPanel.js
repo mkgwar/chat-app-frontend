@@ -33,6 +33,7 @@ const RightPanel = ({
   };
 
   const getMessages = async () => {
+    setisLoading(true);
     const token = localStorage.getItem("token");
     const data = await api.getMessages(token, channelName);
     if (data.status === "OK") {
