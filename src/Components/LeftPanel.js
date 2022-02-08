@@ -100,7 +100,7 @@ const LeftPanel = ({
         </div>
         <section className="slide-section absolute left-full top-0 w-full">
           {channelDataLoading ? (
-            <div className="h-96 w-full flex justify-center items-end text-white uppercase">
+            <div className="h-96 w-full flex justify-center items-end font-bold text-white uppercase">
               Loading...
             </div>
           ) : (
