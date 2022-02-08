@@ -14,7 +14,7 @@ const Homepage = () => {
       <h1 className="text-6xl text-gray-300 tracking-widest uppercase font-bold m-32 text-center flex items-end gap-4">
         <div className="relative">
           <span className="absolute text-xs -top-4 right-0">
-            Now send images!
+            Now create rooms!
           </span>
           Untitled Project
         </div>
