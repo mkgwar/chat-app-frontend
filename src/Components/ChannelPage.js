@@ -19,7 +19,13 @@ const ChannelPage = () => {
   const navigate = useNavigate();
 
   const HomepageComponentRender = () => {
-    if (isLoading && token === "NO_TOKEN_FOUND") {
+    if (isLoading) {
+      return (
+        <div className="text-white h-screen w-screen flex justify-center items-center text-xl bg-gray-900">
+          Loading...
+        </div>
+      );
+    } else if (isLoading && token === "NO_TOKEN_FOUND") {
       return (
         <div className="text-white h-screen w-screen flex flex-col gap-20 justify-center items-center bg-gray-900">
           <h1 className="uppercase tracking-widest text-gray-300 text-5xl font-bold">
@@ -37,12 +43,6 @@ const ChannelPage = () => {
               Sign Up
             </button>
           </div>
-        </div>
-      );
-    } else if (isLoading && token !== "NO_TOKEN_FOUND") {
-      return (
-        <div className="text-white h-screen w-screen flex justify-center items-center text-xl bg-gray-900">
-          Loading...
         </div>
       );
     } else if (!isLoading && token !== "NO_TOKEN_FOUND") {
