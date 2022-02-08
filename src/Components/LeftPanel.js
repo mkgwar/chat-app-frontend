@@ -19,6 +19,7 @@ const LeftPanel = ({
   const navigate = useNavigate();
   const [channelData, setchannelData] = useState(blankChannelData);
   const [isSlide, setisSlide] = useState(false);
+  const [channelDataLoading, setchannelDataLoading] = useState(false);
 
   const getChannelData = async (channelName) => {
     const data = await api.getChannelData(channelName);
@@ -27,8 +28,10 @@ const LeftPanel = ({
   };
 
   const slide = async (channelName) => {
-    await getChannelData(channelName);
     setisSlide(true);
+    setchannelDataLoading(true);
+    await getChannelData(channelName);
+    setchannelDataLoading(false);
   };
 
   const uploadProfilePic = async (event) => {
@@ -96,46 +99,56 @@ const LeftPanel = ({
           })}
         </div>
         <section className="slide-section absolute left-full top-0 w-full">
-          <div className="channel-list-header flex items-center justify-between h-16 px-8 font-bold text-white shadow-md w-full relative">
-            {channelData.channelName}
-            <span
-              className="material-icons absolute right-8 cursor-pointer"
-              onClick={() => setisSlide(false)}
-            >
-              close
-            </span>
-          </div>
-          <div className="w-full h-40 p-8 text-white">
-            <h1 className="uppercase text-lg font-bold mb-4 ">Description</h1>
-            <div className="h-full overflow-hidden text-ellipsis">
-              {channelData.desc.length === 0 ? (
-                <div>No description</div>
-              ) : (
-                <>{channelData.desc}</>
-              )}
+          {channelDataLoading ? (
+            <div className="h-96 w-full flex justify-center items-end text-white uppercase">
+              Loading...
             </div>
-          </div>
-          <div className="channel-list text-white text-sm p-8 w-full h-full overflow-x-hidden whitespace-nowrap text-ellipsis">
-            <h1 className="uppercase text-lg font-bold mb-4">Members</h1>
-            <div className="overflow-y-auto h-96">
-              {channelData.members.length === 0 ? (
-                <h1>There are no members.</h1>
-              ) : (
-                <>
-                  {channelData.members.map((member) => {
-                    return (
-                      <h1
-                        className="uppercase font-bold w-full"
-                        key={Math.random(2000)}
-                      >
-                        {member}
-                      </h1>
-                    );
-                  })}
-                </>
-              )}
-            </div>
-          </div>
+          ) : (
+            <>
+              <div className="channel-list-header flex items-center justify-between h-16 px-8 font-bold text-white shadow-md w-full relative">
+                {channelData.channelName}
+                <span
+                  className="material-icons absolute right-8 cursor-pointer"
+                  onClick={() => setisSlide(false)}
+                >
+                  close
+                </span>
+              </div>
+              <div className="w-full h-52 p-8 text-white">
+                <h1 className="uppercase text-lg font-bold mb-4 ">
+                  Description
+                </h1>
+                <div className="h-full overflow-hidden text-ellipsis text-sm">
+                  {channelData.desc.length === 0 ? (
+                    <div>No description</div>
+                  ) : (
+                    <>{channelData.desc}</>
+                  )}
+                </div>
+              </div>
+              <div className="channel-list text-white text-sm p-8 pt-0 w-full h-full overflow-x-hidden whitespace-nowrap text-ellipsis">
+                <h1 className="uppercase text-lg font-bold mb-4">Members</h1>
+                <div className="overflow-y-auto h-96">
+                  {channelData.members.length === 0 ? (
+                    <h1>There are no members.</h1>
+                  ) : (
+                    <>
+                      {channelData.members.map((member) => {
+                        return (
+                          <h1
+                            className="uppercase font-bold w-full"
+                            key={Math.random(2000)}
+                          >
+                            {member}
+                          </h1>
+                        );
+                      })}
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </section>
       </section>
 
