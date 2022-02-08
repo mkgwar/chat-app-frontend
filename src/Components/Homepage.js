@@ -18,7 +18,7 @@ const Homepage = () => {
           </span>
           Untitled Project
         </div>
-        <span className="text-lg">v1.1</span>
+        <span className="text-lg">v1.2</span>
       </h1>
 
       <Login />
