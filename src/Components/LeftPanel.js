@@ -14,6 +14,7 @@ const LeftPanel = ({
   userData,
   setuserData,
   setopenAddChannel,
+  settoken,
 }) => {
   const [openMenu, setopenMenu] = useState(false);
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const LeftPanel = ({
 
   const logout = () => {
     localStorage.removeItem("token");
+    settoken("NO_TOKEN_FOUND");
     navigate("/");
   };
 

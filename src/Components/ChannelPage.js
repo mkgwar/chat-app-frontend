@@ -12,21 +12,37 @@ const ChannelPage = () => {
   const { channelName } = useParams();
   const [isLoading, setisLoading] = useState(true);
   const [userData, setuserData] = useState(blankUserData);
-  const [token, settoken] = useState("NO_TOKEN_FOUND");
   const [isOpenImage, setisOpenImage] = useState(false);
+  const [token, settoken] = useState("");
   const [openAddChannel, setopenAddChannel] = useState(false);
   const [selectedImage, setselectedImage] = useState("");
   const navigate = useNavigate();
 
-  const HomepageComponentRender = () => {
-    if (isLoading) {
-      return (
+  const getUserData = async (token) => {
+    const data = await api.getUserData(token);
+
+    if (data.status === "OK") {
+      setuserData({ ...data._doc });
+      setisLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const currToken = localStorage.getItem("token") || "NO_TOKEN_FOUND";
+    settoken(currToken);
+
+    if (currToken !== "NO_TOKEN_FOUND") getUserData(currToken);
+  }, []);
+
+  return (
+    <>
+      {isLoading && token !== "NO_TOKEN_FOUND" && (
         <div className="text-white h-screen w-screen flex justify-center items-center text-xl bg-gray-900">
           Loading...
         </div>
-      );
-    } else if (isLoading && token === "NO_TOKEN_FOUND") {
-      return (
+      )}
+
+      {isLoading && token === "NO_TOKEN_FOUND" && (
         <div className="text-white h-screen w-screen flex flex-col gap-20 justify-center items-center bg-gray-900">
           <h1 className="uppercase tracking-widest text-gray-300 text-5xl font-bold">
             Untitled Project
@@ -44,13 +60,14 @@ const ChannelPage = () => {
             </button>
           </div>
         </div>
-      );
-    } else if (!isLoading && token !== "NO_TOKEN_FOUND") {
-      return (
+      )}
+
+      {!isLoading && token !== "NO_TOKEN_FOUND" && (
         <div className="h-screen w-screen flex">
           <LeftPanel
             channelName={channelName}
             userData={userData}
+            settoken={settoken}
             setuserData={setuserData}
             setopenAddChannel={setopenAddChannel}
           />
@@ -61,30 +78,7 @@ const ChannelPage = () => {
             setselectedImage={setselectedImage}
           />
         </div>
-      );
-    }
-  };
-
-  const getUserData = async (token) => {
-    const data = await api.getUserData(token);
-
-    if (data.status === "OK") {
-      setuserData({ ...data._doc });
-      setisLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const currToken = localStorage.getItem("token");
-
-    if (currToken) settoken(currToken);
-
-    if (token !== "NO_TOKEN_FOUND") getUserData(token);
-  }, [channelName, token]);
-
-  return (
-    <>
-      <HomepageComponentRender />
+      )}
 
       {isOpenImage && (
         <OpenImage
