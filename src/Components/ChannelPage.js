@@ -18,6 +18,53 @@ const ChannelPage = () => {
   const [selectedImage, setselectedImage] = useState("");
   const navigate = useNavigate();
 
+  const HomepageComponentRender = () => {
+    if (isLoading && token === "NO_TOKEN_FOUND") {
+      return (
+        <div className="text-white h-screen w-screen flex flex-col gap-20 justify-center items-center bg-gray-900">
+          <h1 className="uppercase tracking-widest text-gray-300 text-5xl font-bold">
+            Untitled Project
+          </h1>
+          <div className="text-lg flex items-center gap-4">
+            <Link to="/login" className="text-blue-500 hover:underline">
+              Sign in
+            </Link>{" "}
+            or{" "}
+            <button
+              className="px-4 py-2 bg-blue-500"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      );
+    } else if (isLoading && token !== "NO_TOKEN_FOUND") {
+      return (
+        <div className="text-white h-screen w-screen flex justify-center items-center text-xl bg-gray-900">
+          Loading...
+        </div>
+      );
+    } else if (!isLoading && token !== "NO_TOKEN_FOUND") {
+      return (
+        <div className="h-screen w-screen flex">
+          <LeftPanel
+            channelName={channelName}
+            userData={userData}
+            setuserData={setuserData}
+            setopenAddChannel={setopenAddChannel}
+          />
+          <RightPanel
+            channelName={channelName}
+            userData={userData}
+            setisOpenImage={setisOpenImage}
+            setselectedImage={setselectedImage}
+          />
+        </div>
+      );
+    }
+  };
+
   const getUserData = async (token) => {
     const data = await api.getUserData(token);
 
@@ -37,46 +84,7 @@ const ChannelPage = () => {
 
   return (
     <>
-      {isLoading && token === "NO_TOKEN_FOUND" ? (
-        <div className="text-white h-screen w-screen flex flex-col gap-20 justify-center items-center bg-gray-900">
-          <h1 className="uppercase tracking-widest text-gray-300 text-5xl font-bold">
-            Untitled Project
-          </h1>
-          <div className="text-lg flex items-center gap-4">
-            <Link to="/login" className="text-blue-500 hover:underline">
-              Sign in
-            </Link>{" "}
-            or{" "}
-            <button
-              className="px-4 py-2 bg-blue-500"
-              onClick={() => navigate("/signup")}
-            >
-              Sign Up
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="text-white h-screen w-screen flex justify-center items-center text-xl bg-gray-900">
-          Loading...
-        </div>
-      )}
-
-      {!isLoading && token !== "NO_TOKEN_FOUND" && (
-        <div className="h-screen w-screen flex">
-          <LeftPanel
-            channelName={channelName}
-            userData={userData}
-            setuserData={setuserData}
-            setopenAddChannel={setopenAddChannel}
-          />
-          <RightPanel
-            channelName={channelName}
-            userData={userData}
-            setisOpenImage={setisOpenImage}
-            setselectedImage={setselectedImage}
-          />
-        </div>
-      )}
+      <HomepageComponentRender />
 
       {isOpenImage && (
         <OpenImage
