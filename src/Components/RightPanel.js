@@ -20,6 +20,7 @@ const RightPanel = ({
   const [newMessage, setnewMessage] = useState(false);
   const bottomDiv = useRef(null);
   const chatWindow = useRef(null);
+  const [screenMessage, setscreenMessage] = useState("Loading...");
 
   const checkBottom = (event) => {
     const { scrollTop, scrollHeight, clientHeight } = event.target;
@@ -33,9 +34,11 @@ const RightPanel = ({
   };
 
   const getMessages = async () => {
+    setscreenMessage("Loading...");
     setisLoading(true);
     const token = localStorage.getItem("token");
     const data = await api.getMessages(token, channelName);
+
     if (data.status === "OK") {
       setmessageList((messageList) => data.messages);
 
@@ -54,9 +57,11 @@ const RightPanel = ({
           [user]: data.profilePic,
         }));
       });
-    }
 
-    setisLoading(false);
+      setisLoading(false);
+    } else if (data.status === "ERROR") {
+      setscreenMessage(data.message);
+    }
   };
 
   useEffect(() => {
@@ -163,11 +168,11 @@ const RightPanel = ({
       </div>
       {isLoading ? (
         <div className="h-full w-full flex justify-center items-center text-white text-xl">
-          Loading Messages...
+          {screenMessage}
         </div>
       ) : (
         <div
-          className="chat-window text-white px-16 p-8 w-full h-full relative overflow-y-auto"
+          className="chat-window text-white px-16 p-8 w-full h-full relative overflow-y-auto "
           onScroll={checkBottom}
           ref={chatWindow}
         >
@@ -229,7 +234,12 @@ const RightPanel = ({
         </div>
       )}
 
-      <div className="type-chat w-full h-32 items-center flex justify-center px-16 relative">
+      <div
+        className={
+          "type-chat w-full h-32 items-center flex justify-center px-16 relative " +
+          (isLoading ? "pointer-events-none" : null)
+        }
+      >
         {isSendingMessage && (
           <div className="bg-gray-700 rounded-md font-bold p-2 text-white bottom-full absolute text-xs z-2">
             sending message
@@ -242,11 +252,11 @@ const RightPanel = ({
           </div>
         )}
 
-        <div className="bg-gray-200 rounded-md bg-opacity-25 text-white w-full h-10 flex items-center justify-center">
+        <div className="bg-gray-200 rounded-md bg-opacity-25 text-white w-full h-12 flex items-center justify-center">
           <input
             type="text"
             ref={messageRef}
-            className="h-full w-full bg-transparent p-4 text-sm focus:outline-0"
+            className="px-2 m-4 h-8 border-b-2 border-transparent w-full bg-transparent text-sm focus:outline-0 focus:border-b-2 focus:border-blue-500"
             placeholder="Type a message here..."
             onKeyDown={(event) => sendMessage(event, "enter")}
           />
