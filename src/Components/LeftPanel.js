@@ -183,7 +183,7 @@ const LeftPanel = ({
               </div>
               <div className="channel-list text-white text-sm p-8 pt-0 w-full h-full overflow-x-hidden whitespace-nowrap text-ellipsis">
                 <h1 className="uppercase text-lg font-bold mb-4">Members</h1>
-                <div className="overflow-y-auto h-96">
+                <div className="overflow-y-auto h-96 space-y-2">
                   {channelData.members.length === 0 ? (
                     <h1>There are no members.</h1>
                   ) : (
@@ -191,7 +191,7 @@ const LeftPanel = ({
                       {channelData.members.map((member) => {
                         return (
                           <h1
-                            className="uppercase font-bold w-full"
+                            className="uppercase w-full"
                             key={Math.random(2000)}
                           >
                             {member}
