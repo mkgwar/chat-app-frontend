@@ -43,3 +43,23 @@ export const getChannelData = async (channelName) => {
 
   return data;
 };
+
+export const getAllChannels = async () => {
+  const { data } = await axios.get(`${SERVER_URL}/channel/getallchannels`);
+
+  return data;
+};
+
+export const addExistingChannel = async (token, channelName) => {
+  const { data } = await axios.post(
+    `${SERVER_URL}/channel/addexistingchannel`,
+    channelName,
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+
+  return data;
+};

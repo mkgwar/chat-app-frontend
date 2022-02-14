@@ -15,12 +15,24 @@ const LeftPanel = ({
   setuserData,
   setopenAddChannel,
   settoken,
+  allChannels,
+  setallChannels,
 }) => {
   const [openMenu, setopenMenu] = useState(false);
   const navigate = useNavigate();
   const [channelData, setchannelData] = useState(blankChannelData);
   const [isSlide, setisSlide] = useState(false);
   const [channelDataLoading, setchannelDataLoading] = useState(false);
+  const [searchTerm, setsearchTerm] = useState("");
+
+  const getAllChannels = async () => {
+    const data = await api.getAllChannels();
+    if (data.status === "OK") setallChannels((allChannels) => data.channels);
+  };
+
+  useEffect(() => {
+    getAllChannels();
+  }, []);
 
   const getChannelData = async (channelName) => {
     const data = await api.getChannelData(channelName);
@@ -73,11 +85,52 @@ const LeftPanel = ({
             <span className="material-icons text-white text-base">add</span>
           </div>
         </div>
-        <div className="channel-list text-white text-sm p-8 w-full h-full overflow-x-hidden whitespace-nowrap text-ellipsis">
-          {userData.channelList.map((channel) => {
+        <div className="search mx-8 h-40 flex flex-col mt-2">
+          <div className="bg-gray-700 bg-opacity-50 flex items-center justify-between h-12 rounded-sm">
+            <input
+              type="text"
+              placeholder="search"
+              className="bg-transparent px-4 text-white text-sm focus:outline-0"
+              onChange={(event) => setsearchTerm(event.target.value)}
+            />
+            <span className="material-icons text-gray-300 w-12 text-base h-full flex items-center justify-center">
+              search
+            </span>
+          </div>
+          <div className="mt-4 h-full  text-sm">
+            {searchTerm.length > 0 && searchTerm.trim().length > 0 ? (
+              <div className="h-full w-full overflow-y-auto space-y-1">
+                {Object.keys(allChannels)
+                  .filter((channel) => {
+                    if (channel.includes(searchTerm.toLowerCase()))
+                      return channel;
+                  })
+                  .map((channel, index) => {
+                    const link = `/channel/${channel}`;
+                    return (
+                      <Link
+                        to={link}
+                        key={index}
+                        className="text-white hover:underline block"
+                      >
+                        {allChannels[channel]}
+                      </Link>
+                    );
+                  })}
+              </div>
+            ) : (
+              <div className="text-white h-full w-full flex items-center justify-center">
+                No search term
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="channel-list text-white text-sm p-8 py-4 w-full h-full overflow-x-hidden whitespace-nowrap text-ellipsis">
+          <h1 className="uppercase text-lg font-bold mb-4">My channels</h1>
+          {userData.channelList.map((channel, index) => {
             const link = `/channel/${channel}`;
             return (
-              <div key={Math.random(1000)} className="relative">
+              <div key={index} className="relative">
                 <Link to={link}>
                   <h1
                     className={

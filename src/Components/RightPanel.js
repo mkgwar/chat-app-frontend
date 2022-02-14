@@ -6,6 +6,7 @@ import { SERVER_URL } from "../Url";
 const RightPanel = ({
   channelName,
   userData,
+  setuserData,
   setisOpenImage,
   setselectedImage,
 }) => {
@@ -21,6 +22,7 @@ const RightPanel = ({
   const bottomDiv = useRef(null);
   const chatWindow = useRef(null);
   const [screenMessage, setscreenMessage] = useState("Loading...");
+  const [notJoined, setnotJoined] = useState(false);
 
   const checkBottom = (event) => {
     const { scrollTop, scrollHeight, clientHeight } = event.target;
@@ -30,6 +32,20 @@ const RightPanel = ({
       setnewMessage(false);
     } else {
       setatBottom(false);
+    }
+  };
+
+  const addExistingChannel = async () => {
+    const data = await api.addExistingChannel(token, {
+      channelName: channelName,
+    });
+
+    if (data.status === "OK") {
+      setnotJoined(false);
+      setuserData((userData) => ({
+        ...userData,
+        channelList: [...userData.channelList, data.channel],
+      }));
     }
   };
 
@@ -59,14 +75,17 @@ const RightPanel = ({
       });
 
       setisLoading(false);
-    } else if (data.status === "ERROR") {
+    } else if (data.status === "CHANNEL_NOT_FOUND") {
       setscreenMessage(data.message);
+    } else if (data.status === "CHANNEL_NOT_JOINED") {
+      setscreenMessage(data.message);
+      setnotJoined(true);
     }
   };
 
   useEffect(() => {
     getMessages();
-  }, [channelName]);
+  }, [channelName, userData]);
 
   useEffect(() => {
     setsocket(io(SERVER_URL));
@@ -163,8 +182,16 @@ const RightPanel = ({
 
   return (
     <div className="channel-container w-full h-full bg-gray-900 flex flex-col justify-between">
-      <div className="channel-header flex items-center h-16 px-16 text-lg font-bold text-white shadow-md uppercase">
+      <div className="channel-header flex items-center justify-between h-16 px-16 font-bold text-white shadow-md uppercase">
         {channelName}
+        {notJoined && (
+          <button
+            className="bg-blue-500 p-1 px-2 text-gray-100 font-bold text-xs uppercase"
+            onClick={addExistingChannel}
+          >
+            Join Now
+          </button>
+        )}
       </div>
       {isLoading ? (
         <div className="h-full w-full flex justify-center items-center text-white text-xl">

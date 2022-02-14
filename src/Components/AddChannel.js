@@ -1,7 +1,13 @@
 import { useState } from "react";
 import api from "../API/index";
 
-const AddChannel = ({ setopenAddChannel, setuserData, userData }) => {
+const AddChannel = ({
+  setopenAddChannel,
+  setuserData,
+  userData,
+  allChannels,
+  setallChannels,
+}) => {
   const [channelData, setchannelData] = useState({ channelName: "", desc: "" });
   const [errorMessage, seterrorMessage] = useState("");
 
@@ -22,6 +28,11 @@ const AddChannel = ({ setopenAddChannel, setuserData, userData }) => {
 
         if (data.status === "OK") {
           setopenAddChannel(false);
+
+          setallChannels((allChannels) => ({
+            ...allChannels,
+            [data.channelName]: data.channelName,
+          }));
 
           setuserData((userData) => ({
             ...userData,

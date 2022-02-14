@@ -16,6 +16,7 @@ const ChannelPage = () => {
   const [token, settoken] = useState("");
   const [openAddChannel, setopenAddChannel] = useState(false);
   const [selectedImage, setselectedImage] = useState("");
+  const [allChannels, setallChannels] = useState({});
   const navigate = useNavigate();
 
   const getUserData = async (token) => {
@@ -70,10 +71,13 @@ const ChannelPage = () => {
             settoken={settoken}
             setuserData={setuserData}
             setopenAddChannel={setopenAddChannel}
+            setallChannels={setallChannels}
+            allChannels={allChannels}
           />
           <RightPanel
             channelName={channelName}
             userData={userData}
+            setuserData={setuserData}
             setisOpenImage={setisOpenImage}
             setselectedImage={setselectedImage}
           />
@@ -91,6 +95,8 @@ const ChannelPage = () => {
           setopenAddChannel={setopenAddChannel}
           setuserData={setuserData}
           userData={userData}
+          allChannels={allChannels}
+          setallChannels={setallChannels}
         />
       )}
     </>

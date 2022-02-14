@@ -10,6 +10,8 @@ import {
   sendMessageImage,
   addChannel,
   getChannelData,
+  getAllChannels,
+  addExistingChannel,
 } from "./channel";
 
 const api = {
@@ -21,7 +23,9 @@ const api = {
   getProfilePic,
   sendMessageImage,
   addChannel,
+  addExistingChannel,
   getChannelData,
+  getAllChannels,
 };
 
 export default api;
