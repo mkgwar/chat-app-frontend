@@ -86,7 +86,7 @@ const RightPanel = ({
 
   useEffect(() => {
     getMessages();
-  }, [channelName, userData]);
+  }, [channelName]);
 
   useEffect(() => {
     setsocket(io(SERVER_URL));
