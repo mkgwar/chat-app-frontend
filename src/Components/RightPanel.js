@@ -52,6 +52,7 @@ const RightPanel = ({
   const getMessages = async () => {
     setscreenMessage("Loading...");
     setisLoading(true);
+    setnotJoined(false);
     const token = localStorage.getItem("token");
     const data = await api.getMessages(token, channelName);
 
